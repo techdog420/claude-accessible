@@ -1,0 +1,86 @@
+CLAUDE CODE ACCESSIBLE SCRIPT - USAGE GUIDE
+===========================================
+
+Created for screen reader users to work with Claude Code without terminal crashes.
+
+FILES CREATED:
+--------------
+- claude-accessible.bat (for Windows - USE THIS ONE)
+- claude-accessible.sh (for Linux/Mac)
+- USAGE.txt (this file)
+
+WINDOWS USAGE:
+--------------
+
+1. Start a new conversation:
+   claude-accessible.bat "Analyze the code in auth.py"
+
+2. Continue the conversation:
+   claude-accessible.bat --continue "Now check for security issues"
+
+   Or use shorthand:
+   claude-accessible.bat -c "What about the database queries?"
+
+3. Start fresh (discards previous session):
+   claude-accessible.bat --new "Help me with a different project"
+
+   Or use shorthand:
+   claude-accessible.bat -n "New task here"
+
+HOW IT WORKS:
+-------------
+- Automatically saves session IDs to continue conversations
+- Auto-approves tools (Read, Write, Edit, Bash, Grep, Glob, Task)
+- Saves all conversations to claude-history.txt for review
+- No interactive prompts that crash screen readers
+- All output is linear and screen reader friendly
+
+CONVERSATION HISTORY:
+--------------------
+All your prompts and responses are saved to:
+   claude-history.txt
+
+You can review this file anytime with your text editor or screen reader.
+
+SESSION MANAGEMENT:
+------------------
+The current session ID is stored in:
+   .claude-session
+
+To start completely fresh, either:
+- Use the --new flag
+- Delete the .claude-session file manually
+
+EXAMPLES:
+---------
+# Start analyzing a project
+claude-accessible.bat "List all Python files in this directory"
+
+# Continue with follow-up questions
+claude-accessible.bat -c "Read the main.py file"
+claude-accessible.bat -c "Find any functions that handle user input"
+claude-accessible.bat -c "Check those functions for SQL injection vulnerabilities"
+
+# Start a new unrelated task
+claude-accessible.bat -n "Help me write a script to process CSV files"
+
+TIPS:
+-----
+- Keep prompts in quotes to handle spaces
+- Use --continue (-c) to maintain context
+- Check claude-history.txt to review past conversations
+- The script auto-approves safe tools to avoid interactive prompts
+
+TROUBLESHOOTING:
+---------------
+If you get errors about session resumption:
+- Use --new to start fresh
+- Or delete .claude-session file
+
+If output seems truncated:
+- Check claude-history.txt for full conversation
+
+FEEDBACK:
+---------
+Please report accessibility issues to:
+https://github.com/anthropics/claude-code/issues

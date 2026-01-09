@@ -1,0 +1,23 @@
+# Session and history files
+.claude-session
+claude-history.txt
+
+# Temporary output files
+temp-output.txt
+claude-output-*.txt
+
+# Test and temporary files
+test.bat
+tmp.txt
+
+# Editor and IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
