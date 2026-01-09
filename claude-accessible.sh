@@ -74,6 +74,7 @@ if [[ -f "$SESSION_FILE" && "$MODE" != "new" ]]; then
     echo "Continuing session: $SESSION_ID"
 
     # Continue the conversation
+    echo "RESPONSE:" >> "$HISTORY_FILE"
     claude -p "$PROMPT" \
         --resume "$SESSION_ID" \
         --allowedTools "$ALLOWED_TOOLS" \
@@ -88,6 +89,7 @@ else
         2>&1)
 
     # Extract and display the result text
+    echo "RESPONSE:" >> "$HISTORY_FILE"
     echo "$JSON_OUTPUT" | grep -o '"result":"[^"]*"' | sed 's/"result":"//;s/"$//' | sed 's/\\n/\n/g' | tee -a "$HISTORY_FILE"
 
     # Extract session ID from JSON
@@ -113,7 +115,13 @@ if [[ "$OPEN_EDITOR" == "1" ]]; then
     echo "Opening output in default editor: $OUTPUT_FILE"
 
     # Extract the last response from history file
-    awk '/^RESPONSE:/{p=1} p' "$HISTORY_FILE" | tail -n +1 > "$OUTPUT_FILE"
+    # Get line number of last RESPONSE: marker and extract from there to end
+    LAST_LINE=$(grep -n "^RESPONSE:" "$HISTORY_FILE" | tail -1 | cut -d: -f1)
+    if [[ -n "$LAST_LINE" ]]; then
+        tail -n +$LAST_LINE "$HISTORY_FILE" > "$OUTPUT_FILE"
+    else
+        echo "No RESPONSE: marker found in history file" > "$OUTPUT_FILE"
+    fi
 
     # Open in default editor (uses xdg-open on Linux, open on Mac)
     if command -v xdg-open &> /dev/null; then
